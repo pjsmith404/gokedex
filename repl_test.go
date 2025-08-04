@@ -14,14 +14,13 @@ func TestCleanInput(t *testing.T) {
 			expected: []string{"hello", "world"},
 		},
 		{
-			input: "Charmander Bulbasaur PIKACHU",
+			input:    "Charmander Bulbasaur PIKACHU",
 			expected: []string{"charmander", "bulbasaur", "pikachu"},
 		},
 		{
-			input: "  Charmander \t  Bulbasaur \n  PIKACHU   ",
+			input:    "  Charmander \t  Bulbasaur \n  PIKACHU   ",
 			expected: []string{"charmander", "bulbasaur", "pikachu"},
 		},
-
 	}
 
 	for _, c := range cases {

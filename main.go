@@ -1,10 +1,10 @@
 package main
 
 import (
-	"fmt"
-	"strings"
 	"bufio"
+	"fmt"
 	"os"
+	"strings"
 )
 
 func cleanInput(text string) []string {
@@ -22,7 +22,7 @@ func main() {
 		input := cleanInput(scanner.Text())
 		if len(input) > 0 {
 			fmt.Printf("Your command was: %v\n", input[0])
-		}	
+		}
 	}
 	if err := scanner.Err(); err != nil {
 		fmt.Fprintln(os.Stderr, "reading standard input:", err)
