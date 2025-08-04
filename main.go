@@ -8,14 +8,10 @@ import (
 )
 
 func cleanInput(text string) []string {
-	splitText := strings.Fields(text)
+	loweredText := strings.ToLower(text)
+	splitText := strings.Fields(loweredText)
 
-	var loweredText []string
-	for _, word := range splitText {
-		loweredText = append(loweredText, strings.ToLower(word))
-	}
-
-	return loweredText
+	return splitText
 }
 
 func main() {
