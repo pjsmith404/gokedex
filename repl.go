@@ -16,18 +16,8 @@ type cliCommand struct {
 }
 
 type config struct {
-	next     string
-	previous string
-}
-
-type LocationArea struct {
-	Count    int    `json:"count"`
-	Next     string `json:"next"`
-	Previous string    `json:"previous"`
-	Results  []struct {
-		Name string `json:"name"`
-		URL  string `json:"url"`
-	} `json:"results"`
+	next     *string
+	previous *string
 }
 
 func cleanInput(text string) []string {
@@ -65,10 +55,7 @@ func getSupportedCommands() map[string]cliCommand {
 func startRepl() {
 	scanner := bufio.NewScanner(os.Stdin)
 
-	conf := config{
-		next:     "",
-		previous: "",
-	}
+	conf := config{}
 
 	for {
 		fmt.Print("Pokedex > ")

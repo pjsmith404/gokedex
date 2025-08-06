@@ -2,23 +2,13 @@ package main
 
 import (
 	"fmt"
-	"encoding/json"
 	"github.com/pjsmith404/gokedex/internal/pokeapi"
 )
 
 func commandMap(conf *config) error {
-	var url string
-	if conf.next == "" {
-		url = baseUrl + "location-area/"
-	} else {
-		url = conf.next
-	}
-
-	res := pokeapi.Get(url)
-	locationArea := LocationArea{}
-	err := json.Unmarshal(res, &locationArea)
-	if err != nil {
-		fmt.Println(err)
+	locationArea, err := pokeapi.GetLocationArea(conf.next)
+	if err != nil{
+		return err
 	}
 
 	for _,location := range locationArea.Results {
@@ -32,18 +22,13 @@ func commandMap(conf *config) error {
 }
 
 func commandMapBack(conf *config) error {
-	var url string
-	if conf.previous == "" {
-		url = baseUrl + "location-area/"
-	} else {
-		url = conf.previous
+	if conf.previous == nil {
+		return fmt.Errorf("You're on the first page")
 	}
 
-	res := pokeapi.Get(url)
-	locationArea := LocationArea{}
-	err := json.Unmarshal(res, &locationArea)
-	if err != nil {
-		fmt.Println(err)
+	locationArea, err := pokeapi.GetLocationArea(conf.previous)
+	if err != nil{
+		return err
 	}
 
 	for _,location := range locationArea.Results {
