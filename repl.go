@@ -5,19 +5,17 @@ import (
 	"fmt"
 	"os"
 	"strings"
-	"encoding/json"
-	"github.com/pjsmith404/gokedex/internal/pokeapi"
 )
 
 const baseUrl = "https://pokeapi.co/api/v2/"
 
-type CliCommand struct {
+type cliCommand struct {
 	name        string
 	description string
-	callback    func(*Config) error
+	callback    func(*config) error
 }
 
-type Config struct {
+type config struct {
 	next     string
 	previous string
 }
@@ -32,7 +30,6 @@ type LocationArea struct {
 	} `json:"results"`
 }
 
-
 func cleanInput(text string) []string {
 	loweredText := strings.ToLower(text)
 	splitText := strings.Fields(loweredText)
@@ -40,8 +37,8 @@ func cleanInput(text string) []string {
 	return splitText
 }
 
-func getSupportedCommands() map[string]CliCommand {
-	return map[string]CliCommand{
+func getSupportedCommands() map[string]cliCommand {
+	return map[string]cliCommand{
 		"help": {
 			name:        "help",
 			description: "Displays a help message",
@@ -65,79 +62,10 @@ func getSupportedCommands() map[string]CliCommand {
 	}
 }
 
-func commandExit(config *Config) error {
-	fmt.Println("Closing the Pokedex... Goodbye!")
-	os.Exit(0)
-
-	return fmt.Errorf("Failed to exit program")
-}
-
-func commandHelp(config *Config) error {
-	fmt.Println("Welcome to the Pokedex!")
-	fmt.Println("Usage:\n")
-
-	for _, command := range getSupportedCommands() {
-		fmt.Printf("%v: %v\n", command.name, command.description)
-	}
-
-	return nil
-}
-
-func commandMap(config *Config) error {
-	var url string
-	if config.next == "" {
-		url = baseUrl + "location-area/"
-	} else {
-		url = config.next
-	}
-
-	res := pokeapi.Get(url)
-	locationArea := LocationArea{}
-	err := json.Unmarshal(res, &locationArea)
-	if err != nil {
-		fmt.Println(err)
-	}
-
-	for _,location := range locationArea.Results {
-		fmt.Println(location.Name)
-	}
-
-	config.next = locationArea.Next
-	config.previous = locationArea.Previous
-
-	return nil
-}
-
-func commandMapBack(config *Config) error {
-	var url string
-	if config.previous == "" {
-		url = baseUrl + "location-area/"
-	} else {
-		url = config.previous
-	}
-
-	res := pokeapi.Get(url)
-	locationArea := LocationArea{}
-	err := json.Unmarshal(res, &locationArea)
-	if err != nil {
-		fmt.Println(err)
-	}
-
-	for _,location := range locationArea.Results {
-		fmt.Println(location.Name)
-	}
-
-	config.next = locationArea.Next
-	config.previous = locationArea.Previous
-
-	return nil
-}
-
-
 func startRepl() {
 	scanner := bufio.NewScanner(os.Stdin)
 
-	config := Config{
+	conf := config{
 		next:     "",
 		previous: "",
 	}
@@ -158,7 +86,10 @@ func startRepl() {
 			continue
 		}
 
-		command.callback(&config)
+		err := command.callback(&conf)
+		if err != nil {
+			fmt.Fprintln(os.Stderr, err)
+		}
 	}
 
 	if err := scanner.Err(); err != nil {
