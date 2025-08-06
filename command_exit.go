@@ -1,8 +1,8 @@
 package main
 
 import (
-	"os"
 	"fmt"
+	"os"
 )
 
 func commandExit(conf *config) error {
@@ -11,4 +11,3 @@ func commandExit(conf *config) error {
 
 	return fmt.Errorf("Failed to exit program")
 }
-

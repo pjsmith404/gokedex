@@ -14,4 +14,3 @@ func commandHelp(conf *config) error {
 
 	return nil
 }
-

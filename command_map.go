@@ -7,11 +7,11 @@ import (
 
 func commandMap(conf *config) error {
 	locationArea, err := pokeapi.GetLocationArea(conf.next)
-	if err != nil{
+	if err != nil {
 		return err
 	}
 
-	for _,location := range locationArea.Results {
+	for _, location := range locationArea.Results {
 		fmt.Println(location.Name)
 	}
 
@@ -27,11 +27,11 @@ func commandMapBack(conf *config) error {
 	}
 
 	locationArea, err := pokeapi.GetLocationArea(conf.previous)
-	if err != nil{
+	if err != nil {
 		return err
 	}
 
-	for _,location := range locationArea.Results {
+	for _, location := range locationArea.Results {
 		fmt.Println(location.Name)
 	}
 
@@ -40,4 +40,3 @@ func commandMapBack(conf *config) error {
 
 	return nil
 }
-
