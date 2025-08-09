@@ -7,8 +7,6 @@ import (
 	"strings"
 )
 
-const baseUrl = "https://pokeapi.co/api/v2/"
-
 type cliCommand struct {
 	name        string
 	description string
