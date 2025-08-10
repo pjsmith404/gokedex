@@ -3,6 +3,7 @@ package main
 import (
 	"bufio"
 	"fmt"
+	"github.com/pjsmith404/gokedex/internal/pokeapi"
 	"os"
 	"strings"
 )
@@ -14,8 +15,9 @@ type cliCommand struct {
 }
 
 type config struct {
-	next     *string
-	previous *string
+	pokeapiClient pokeapi.Client
+	next          *string
+	previous      *string
 }
 
 func cleanInput(text string) []string {
@@ -53,7 +55,9 @@ func getSupportedCommands() map[string]cliCommand {
 func startRepl() {
 	scanner := bufio.NewScanner(os.Stdin)
 
-	conf := config{}
+	conf := config{
+		pokeapiClient: pokeapi.NewClient(),
+	}
 
 	for {
 		fmt.Print("Pokedex > ")

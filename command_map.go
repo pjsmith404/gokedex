@@ -2,11 +2,10 @@ package main
 
 import (
 	"fmt"
-	"github.com/pjsmith404/gokedex/internal/pokeapi"
 )
 
 func commandMap(conf *config) error {
-	locationArea, err := pokeapi.GetLocationArea(conf.next)
+	locationArea, err := conf.pokeapiClient.GetLocationArea(conf.next)
 	if err != nil {
 		return err
 	}
@@ -26,7 +25,7 @@ func commandMapBack(conf *config) error {
 		return fmt.Errorf("You're on the first page")
 	}
 
-	locationArea, err := pokeapi.GetLocationArea(conf.previous)
+	locationArea, err := conf.pokeapiClient.GetLocationArea(conf.previous)
 	if err != nil {
 		return err
 	}
