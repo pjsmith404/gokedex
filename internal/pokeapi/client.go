@@ -6,7 +6,7 @@ import (
 )
 
 type Client struct {
-	cache pokecache.Cache 
+	cache pokecache.Cache
 }
 
 func NewClient() Client {
