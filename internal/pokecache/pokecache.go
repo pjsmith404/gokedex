@@ -28,7 +28,7 @@ func NewCache(interval time.Duration) Cache {
 	return c
 }
 
-func (c Cache) Add(key string, val []byte) {
+func (c *Cache) Add(key string, val []byte) {
 	c.mu.Lock()
 	defer c.mu.Unlock()
 
@@ -38,7 +38,7 @@ func (c Cache) Add(key string, val []byte) {
 	}
 }
 
-func (c Cache) Get(key string) (val []byte, found bool) {
+func (c *Cache) Get(key string) (val []byte, ok bool) {
 	c.mu.Lock()
 	defer c.mu.Unlock()
 
@@ -51,7 +51,7 @@ func (c Cache) Get(key string) (val []byte, found bool) {
 	return val, true
 }
 
-func (c Cache) reapLoop() {
+func (c *Cache) reapLoop() {
 	for t := range time.Tick(c.interval) {
 		for k, v := range c.entries {
 			age := t.Sub(v.createdAt)

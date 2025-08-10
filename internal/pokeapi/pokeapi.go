@@ -25,11 +25,9 @@ func (c *Client) GetLocationArea(pageUrl *string) (ResLocationArea, error) {
 		url = *pageUrl
 	}
 
-	data, found := c.cache.Get(url)
-	fmt.Println(data, found)
+	data, ok := c.cache.Get(url)
 
-	if !found {
-		fmt.Println("here")
+	if !ok {
 		res, err := http.Get(url)
 		if err != nil {
 			return ResLocationArea{}, err

@@ -11,6 +11,6 @@ type Client struct {
 
 func NewClient() Client {
 	return Client{
-		cache: pokecache.NewCache(5 * time.Second),
+		cache: pokecache.NewCache(5 * time.Minute),
 	}
 }
