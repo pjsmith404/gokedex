@@ -40,6 +40,7 @@ func (c *Client) GetLocationArea(pageUrl *string) (ResLocationArea, error) {
 			fmt.Errorf(
 				"Response failed with status code: %d and\nbody: %s\n",
 				res.StatusCode,
+				res.Body,
 			)
 		}
 
