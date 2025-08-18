@@ -11,7 +11,7 @@ import (
 type cliCommand struct {
 	name        string
 	description string
-	callback    func(*config) error
+	callback    func(*config, string) error
 }
 
 type config struct {
@@ -70,12 +70,18 @@ func startRepl() {
 		supportedCommands := getSupportedCommands()
 		command := supportedCommands[input[0]]
 
+		subCommand := ""
+
+		if len(input) > 1 {
+			subCommand = input[1]
+		}
+
 		if command.name == "" {
 			fmt.Fprintln(os.Stderr, "Unknown command")
 			continue
 		}
 
-		err := command.callback(&conf)
+		err := command.callback(&conf, subCommand)
 		if err != nil {
 			fmt.Fprintln(os.Stderr, err)
 		}
