@@ -44,6 +44,11 @@ func getSupportedCommands() map[string]cliCommand {
 			description: "Get the previous page of maps",
 			callback:    commandMapBack,
 		},
+		"explore": {
+			name: "explore",
+			description: "Explore a given area",
+			callback: commandExplore,
+		},
 		"exit": {
 			name:        "exit",
 			description: "Exit the Pokedex",
