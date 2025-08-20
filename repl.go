@@ -45,9 +45,9 @@ func getSupportedCommands() map[string]cliCommand {
 			callback:    commandMapBack,
 		},
 		"explore": {
-			name: "explore",
+			name:        "explore",
 			description: "Explore a given area",
-			callback: commandExplore,
+			callback:    commandExplore,
 		},
 		"exit": {
 			name:        "exit",
