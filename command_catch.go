@@ -11,5 +11,11 @@ func commandCatch(conf *config, subCommand string) error {
 
 	fmt.Printf("Throwing a Pokeball at %v...\n", subCommand)
 
+	pokemon, err := conf.pokeapiClient.GetPokemon(subCommand)
+	if err != nil {
+		return err
+	}
+	fmt.Println(pokemon.ID)
+
 	return nil
 }

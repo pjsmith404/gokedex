@@ -85,3 +85,40 @@ func (c *Client) GetLocationAreaDetail(id string) (ResLocationAreaDetail, error)
 
 	return locationAreaDetail, nil
 }
+
+func (c *Client) GetPokemon(id string) (ResPokemon, error) {
+	url := baseUrl + "/pokemon/" + id
+
+	data, ok := c.cache.Get(url)
+
+	if !ok {
+		res, err := http.Get(url)
+		if err != nil {
+			return ResPokemon{}, err
+		}
+		defer res.Body.Close()
+
+		if res.StatusCode > 299 {
+			fmt.Errorf(
+				"Response failed with status code: %d and\nbody: %s\n",
+				res.StatusCode,
+				res.Body,
+			)
+		}
+
+		data, err = io.ReadAll(res.Body)
+		if err != nil {
+			return ResPokemon{}, err
+		}
+
+		c.cache.Add(url, data)
+	}
+
+	var pokemon ResPokemon
+	err := json.Unmarshal(data, &pokemon)
+	if err != nil {
+		return ResPokemon{}, err
+	}
+
+	return pokemon, nil
+}
