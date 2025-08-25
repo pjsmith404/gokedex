@@ -24,17 +24,17 @@ func (c *Client) GetLocationArea(pageUrl *string) (ResLocationArea, error) {
 		}
 		defer res.Body.Close()
 
-		if res.StatusCode > 299 {
-			fmt.Errorf(
-				"Response failed with status code: %d and\nbody: %s\n",
-				res.StatusCode,
-				res.Body,
-			)
-		}
-
 		data, err = io.ReadAll(res.Body)
 		if err != nil {
 			return ResLocationArea{}, err
+		}
+
+		if res.StatusCode > 299 {
+			return ResLocationArea{}, fmt.Errorf(
+				"Response failed with status code: %d and\nbody: %s\n",
+				res.StatusCode,
+				string(data),
+			)
 		}
 
 		c.cache.Add(url, data)
@@ -98,17 +98,17 @@ func (c *Client) GetPokemon(id string) (ResPokemon, error) {
 		}
 		defer res.Body.Close()
 
-		if res.StatusCode > 299 {
-			fmt.Errorf(
-				"Response failed with status code: %d and\nbody: %s\n",
-				res.StatusCode,
-				res.Body,
-			)
-		}
-
 		data, err = io.ReadAll(res.Body)
 		if err != nil {
 			return ResPokemon{}, err
+		}
+
+		if res.StatusCode > 299 {
+			return ResPokemon{}, fmt.Errorf(
+				"Response failed with status code: %d and\nbody: %s\n",
+				res.StatusCode,
+				string(data),
+			)
 		}
 
 		c.cache.Add(url, data)
