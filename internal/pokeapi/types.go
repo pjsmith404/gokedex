@@ -72,7 +72,7 @@ type ResLocationAreaDetail struct {
 	} `json:"pokemon_encounters"`
 }
 
-type ResPokemon struct {
+type Pokemon struct {
 	Abilities []struct {
 		Ability struct {
 			Name string `json:"name"`

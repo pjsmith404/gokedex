@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"math/rand"
 )
 
 func commandCatch(conf *config, subCommand string) error {
@@ -15,7 +16,14 @@ func commandCatch(conf *config, subCommand string) error {
 	if err != nil {
 		return err
 	}
-	fmt.Println(pokemon.ID)
+
+	randInt := rand.Intn(1000)
+	if randInt > pokemon.BaseExperience {
+		fmt.Printf("%v was caught!\n", subCommand)
+		conf.pokedex[subCommand] = pokemon
+	} else {
+		fmt.Printf("%v escaped!\n", subCommand)
+	}
 
 	return nil
 }

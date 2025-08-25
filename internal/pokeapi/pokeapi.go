@@ -86,7 +86,7 @@ func (c *Client) GetLocationAreaDetail(id string) (ResLocationAreaDetail, error)
 	return locationAreaDetail, nil
 }
 
-func (c *Client) GetPokemon(id string) (ResPokemon, error) {
+func (c *Client) GetPokemon(id string) (Pokemon, error) {
 	url := baseUrl + "/pokemon/" + id
 
 	data, ok := c.cache.Get(url)
@@ -94,17 +94,17 @@ func (c *Client) GetPokemon(id string) (ResPokemon, error) {
 	if !ok {
 		res, err := http.Get(url)
 		if err != nil {
-			return ResPokemon{}, err
+			return Pokemon{}, err
 		}
 		defer res.Body.Close()
 
 		data, err = io.ReadAll(res.Body)
 		if err != nil {
-			return ResPokemon{}, err
+			return Pokemon{}, err
 		}
 
 		if res.StatusCode > 299 {
-			return ResPokemon{}, fmt.Errorf(
+			return Pokemon{}, fmt.Errorf(
 				"Response failed with status code: %d and\nbody: %s\n",
 				res.StatusCode,
 				string(data),
@@ -114,10 +114,10 @@ func (c *Client) GetPokemon(id string) (ResPokemon, error) {
 		c.cache.Add(url, data)
 	}
 
-	var pokemon ResPokemon
+	var pokemon Pokemon
 	err := json.Unmarshal(data, &pokemon)
 	if err != nil {
-		return ResPokemon{}, err
+		return Pokemon{}, err
 	}
 
 	return pokemon, nil
