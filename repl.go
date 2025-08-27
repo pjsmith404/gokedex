@@ -16,7 +16,7 @@ type cliCommand struct {
 
 type config struct {
 	pokeapiClient pokeapi.Client
-	pokedex map[string]pokeapi.Pokemon
+	pokedex       map[string]pokeapi.Pokemon
 	next          *string
 	previous      *string
 }
@@ -73,7 +73,7 @@ func startRepl() {
 
 	conf := config{
 		pokeapiClient: pokeapi.NewClient(),
-		pokedex: make(map[string]pokeapi.Pokemon),
+		pokedex:       make(map[string]pokeapi.Pokemon),
 	}
 
 	for {
