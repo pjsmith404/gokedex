@@ -6,8 +6,8 @@ import (
 
 func commandPokedex(conf *config, subCommand string) error {
 	fmt.Println("Your Pokedex:")
-	for pokemon, _ := range conf.pokedex {
-		fmt.Println(" -", pokemon)
+	for _, p := range conf.pokedex {
+		fmt.Println(" -", p.Name)
 	}
 
 	return nil
